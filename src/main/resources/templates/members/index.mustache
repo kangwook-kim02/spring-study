@@ -1,0 +1,21 @@
+{{>layouts/header}}
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">email</th>
+        <th scope="col">비밀번호</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#memberList}} <!-- articleList에 있는 데이터 수 만큼 아래 코드를 반복 실행 -->
+    <tr>
+        <th>{{id}}</th>
+        <th>{{email}}</th>
+        <td >{{password}}</td>
+    </tr>
+    {{/memberList}}
+    </tbody>
+</table>
+<a href="/signup">회원가입</a>
+{{>layouts/footer}}
