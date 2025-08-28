@@ -1,8 +1,10 @@
 package com.example.fistproject.controller;
 
 import com.example.fistproject.dto.ArticleForm;
+import com.example.fistproject.dto.CommentDto;
 import com.example.fistproject.entity.Article;
 import com.example.fistproject.repository.ArticleRepository;
+import com.example.fistproject.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j // Simple Logging Facade for Java slf4j --> 로깅할 때 사용
 @Controller
@@ -22,6 +25,9 @@ public class ArticleController {
 //    private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
+    private CommentService commentService;
+
     @GetMapping("/articles/new")
     public String newArticleForm() {
         return "articles/new";
@@ -48,9 +54,10 @@ public class ArticleController {
         log.info("id = " + id);
         // 1. id 를 조회해 데이터 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
-
+        List<CommentDto> commentsDtos = commentService.comments(id);
         // 2. 모델에 데이터 등록하기
         model.addAttribute("article", articleEntity);
+        model.addAttribute("commentDtos",commentsDtos);
 
         // 3. 뷰 페이지 반환하기
         return "articles/show";
@@ -112,4 +119,5 @@ public class ArticleController {
 
         return "redirect:/articles";
     }
+
 }
